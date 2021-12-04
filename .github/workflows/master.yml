@@ -42,5 +42,11 @@ jobs:
         target: "../var/www/cariota.org/api/v1"
 
     #Runs a line command on shell
-    - name: run script
-      run: sh ./.github/github-actions-scripts.sh
+    - name: run script on Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: cd ../var/www/cariota.org/api/v1 && ls -a
