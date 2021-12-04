@@ -43,4 +43,4 @@ jobs:
 
     #Runs a line command on shell
     - name: run script
-      run: sh ./.github/
+      run: sh ./.github/github-actions-scripts.sh
