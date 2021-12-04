@@ -1,1 +1,2 @@
-pm2 status
+echo Which directory we are:
+ls -a
