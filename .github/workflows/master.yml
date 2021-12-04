@@ -40,3 +40,7 @@ jobs:
         port: ${{ secrets.PORT }}
         source: "package.json"
         target: "../var/www/cariota.org/api/v1"
+
+    #Runs a line command on shell
+    - name: run script
+      run: sh ./.github/
