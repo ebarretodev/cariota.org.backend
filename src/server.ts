@@ -16,6 +16,6 @@ server.use(express.urlencoded({extended:true}))
 server.use('/', routes)
 
 //Running server
-server.listen(process.env.PORT, ()=>{
-    console.log(`--Running on: ${process.env.BASE}:${process.env.PORT}`)
+server.listen(5000, ()=>{
+    console.log(`--Running on: http://localhost:${process.env.PORT}`)
 })
