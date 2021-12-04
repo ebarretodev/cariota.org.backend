@@ -49,4 +49,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
-        script: cd ../var/www/cariota.org/api/v1 && ls -a
+        script: cd ../var/www/cariota.org/api/v1 && npm install && pm2 restart server.js
