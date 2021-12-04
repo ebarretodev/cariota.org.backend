@@ -11,7 +11,7 @@ var server = express();
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-server.use('/', routes);
+server.use('/api/v1/', routes);
 //Running server
 server.listen(5000, function () {
     console.log("--Running on: http://localhost:".concat(process.env.PORT));
