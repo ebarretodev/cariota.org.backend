@@ -3,7 +3,21 @@ require('dotenv').config()
 
 //Importing library
 const express = require('express')
+const mongoose = require('mongoose')
 const cors = require('cors')
+
+//DB connection
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+
+mongoose.Promise = global.Promise
+
+mongoose.connection.on('error', (error: any)=>{
+    console.log("Error: ", error.message);
+})
+
 
 //Importing internal files
 const routes = require('./routes')
@@ -16,6 +30,6 @@ server.use(express.urlencoded({extended:true}))
 server.use('/', routes)
 
 //Running server
-server.listen(5000, ()=>{
-    console.log(`--Running on: http://localhost:${process.env.PORT}`)
+server.listen(process.env.PORT, ()=>{
+    console.log(`--Running on: ${process.env.BASE}`)
 })

@@ -4,6 +4,7 @@ import { Router, Request, Response } from "express"
 //Import Middlewares
 const AuthController = require('./controllers/AuthController')
 const UserController = require('./controllers/UserController')
+const StoreController = require('./controllers/StoreController')
 
 //Routes definition
 const router = Router()
@@ -16,6 +17,10 @@ router.get('/user/me', UserController.info)
 router.put('/user/me', UserController.editAction)
 router.post('/user/signin', AuthController.signin)
 router.post('/user/signup', AuthController.signup)
+
+router.get('/stores/list', StoreController.list)
+
+
 
 
 module.exports = router
