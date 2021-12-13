@@ -11,7 +11,7 @@ import { Request, Response, ErrorRequestHandler } from 'express'
 //DB connection
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 })
 
 mongoose.Promise = global.Promise
@@ -31,6 +31,19 @@ server.use(express.json())
 server.use(express.urlencoded({extended:true}))
 server.use(passport.initialize())
 server.use('/', routes)
+
+//Case not found
+server.use((req: Request, res: Response) => {
+    res.status(404)
+    res.json({ error: 'Not found endpoint' })
+})
+
+//Case occurs error on request
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    res.status(err.status ? err.status : 400)
+    res.json({error: err.message ? err.message : 'Error occurs.'})
+}
+server.use(errorHandler);
 
 //Running server
 server.listen(process.env.PORT, ()=>{
