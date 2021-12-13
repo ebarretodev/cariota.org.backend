@@ -10,4 +10,7 @@ module.exports = {
     editAction: async (req: Request, res:Response)=> {
         res.json({message:"User Edited"})
     },
+    deleteMe: async (req: Request, res:Response)=> {
+        res.json({message:"User Deleted"})
+    },
 }
