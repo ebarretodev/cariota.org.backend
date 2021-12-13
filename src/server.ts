@@ -5,6 +5,8 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+import passport from 'passport'
+import { Request, Response, ErrorRequestHandler } from 'express'
 
 //DB connection
 mongoose.connect(process.env.DATABASE, {
@@ -27,6 +29,7 @@ const server = express()
 server.use(cors())
 server.use(express.json())
 server.use(express.urlencoded({extended:true}))
+server.use(passport.initialize())
 server.use('/', routes)
 
 //Running server
