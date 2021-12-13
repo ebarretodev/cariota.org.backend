@@ -1,0 +1,30 @@
+User:
+- _id
+- username
+- email
+- tokenAPI
+- passHash
+- seed
+- address
+
+NPC:
+- _id
+- username
+- email
+- tokenAPI **
+- passHash
+- seed
+- address
+
+NPC's services:
+- _id
+- id do NPC
+- name: service 1,
+- type: buy/sell,
+- value: number
+
+
+NPC's categories :
+- _id
+- slug
+
