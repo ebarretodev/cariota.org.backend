@@ -17,8 +17,8 @@ router.get('/', (req: Request, res: Response)=>{
     res.json({message: 'Welcome to API.v1 to CarWallet Simulator.'})
 })
 
-router.post('/user/signin', AuthController.signin)
-router.post('/user/signup', AuthController.signup)
+router.post('/signin', AuthController.signin) //done
+router.post('/signup', AuthController.signup) //done
 
 router.get('/user/me', UserController.info)
 router.put('/user/me', UserController.editAction)
