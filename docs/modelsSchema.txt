@@ -1,13 +1,4 @@
-User:
-- _id
-- username
-- email
-- tokenAPI
-- passHash
-- seed
-- address
-
-NPC:
+NPC/User:
 - _id
 - username
 - email
@@ -15,6 +6,7 @@ NPC:
 - passHash
 - seed
 - address
+- NPC (True, False)
 
 NPC's services:
 - _id
@@ -24,7 +16,8 @@ NPC's services:
 - value: number
 
 
-NPC's categories :
+NPC's categories:
 - _id
+- name
 - slug
 

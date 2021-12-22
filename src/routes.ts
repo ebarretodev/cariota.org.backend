@@ -5,31 +5,32 @@ import { Router, Request, Response } from "express"
 const AuthController = require('./controllers/AuthController')
 const UserController = require('./controllers/UserController')
 const NpcController = require('./controllers/NpcController')
+const CategoriesController = require('./controllers/CategoriesController')
 const IotaController = require('./controllers/IotaController')
-import { privateRoute } from "./config/passport"
-
+import { privateRoute } from "./middlewares/passport"
 //Routes definition
 const router = Router()
 
 //Welcome message
 router.get('/', (req: Request, res: Response)=>{
     res.status(200)
-    res.json({message: 'Welcome to API.v1 to CarWallet Simulator.'})
+    res.json({message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://github.com/ebarretodev/cariota.org.backend'})
 })
 
-router.post('/signin', AuthController.signin) //done
-router.post('/signup', AuthController.signup) //done
+router.post('/signin', AuthController.signin)
+router.post('/signup', AuthController.signup)
 
-router.get('/user/me', UserController.info)
-router.put('/user/me', UserController.editAction)
-router.delete('/user/me', UserController.deleteMe)
+router.get('/user/me', privateRoute, UserController.info)
+router.put('/user/me', privateRoute, UserController.editAction)
+router.delete('/user/me', privateRoute, UserController.deleteMe)
 
-router.get('/npc/list', NpcController.list)
-router.get('/npc/listCategories', NpcController.listCategories)
-router.get('/npc/:id/listServices', NpcController.listServices)
-router.post('/npc/:id/:service', NpcController.useService)
+router.get('/npc/list', privateRoute, NpcController.list)
+router.get('/npc/listCategories', privateRoute, NpcController.listCategories)
+router.post('/npc/category', privateRoute, CategoriesController.addCategory)
+router.post('/npc/addService', privateRoute, NpcController.addService)
+router.get('/npc/listServices', privateRoute, NpcController.listServices)
+router.post('/npc/useService', privateRoute, NpcController.useService) //not done
 
-router.post('/iota/buy', IotaController.buy)
-
+router.post('/iota/buy', privateRoute, IotaController.buy) // not done
 
 module.exports = router

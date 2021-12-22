@@ -2,18 +2,15 @@ import mongoose from 'mongoose'
 mongoose.Promise = global.Promise
 
 const modelSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    passHash: String,
-    token: String,
-    nameIndexMessages: String,
-    mnemonic: String,
-    seed: String,
-    address: String,
-    typeNPC: Boolean,
+    idNPC: mongoose.Types.ObjectId,
+    name: String,
+    category: mongoose.Types.ObjectId,
+    type: { type: String, enum: ['buy', 'sell'] },
+    value: Number,
+    time: Number
 })
 
-const modelName = "User"
+const modelName = "Services"
 
 if (mongoose.connection && mongoose.connection.models[modelName]){
     module.exports = mongoose.connection.models[modelName]
