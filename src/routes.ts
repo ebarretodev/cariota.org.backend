@@ -31,6 +31,6 @@ router.post('/npc/addService', privateRoute, NpcController.addService)
 router.get('/npc/listServices', privateRoute, NpcController.listServices)
 router.post('/npc/useService', privateRoute, NpcController.useService) //not done
 
-router.post('/iota/buy', privateRoute, IotaController.buy) // not done
+router.get('/iota/buy', privateRoute, IotaController.buy)
 
 module.exports = router
