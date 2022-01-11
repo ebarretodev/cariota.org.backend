@@ -33,15 +33,3 @@ Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 For correctly tabuse you must create the datase olx and collections following the models on `/src/models/` and a ".env" file with directions for the database like  `DATABASE=mongodb://127.0.0.1:27017/cariota`
 
-## Endpoints available
-
-+ ### Test API [/]
-  ### GET
-  Route for only test communication purpose.
-  + Response 200 (application/json):
-    ```
-    {"message":"Welcome to API.v1 to CarWallet Simulator."}
-    ```
-
-+
-
