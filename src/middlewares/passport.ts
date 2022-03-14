@@ -2,8 +2,7 @@ import {Request, Response, NextFunction} from 'express'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 const User = require('../models/User')
-import dotenv from 'dotenv'
-dotenv.config()
+require('dotenv').config()
 
 import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt'
 

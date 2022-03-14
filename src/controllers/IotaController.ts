@@ -49,4 +49,8 @@ module.exports = {
         const result = await outputs(req.user.address)
         res.status(200).json(result)
     },
+    sendMessage : async (req: Request, res: Response)=>{
+
+        res.status(200).json('ok')
+    }
 }

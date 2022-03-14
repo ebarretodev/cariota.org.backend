@@ -13,8 +13,7 @@ const router = Router()
 
 //Welcome message
 router.get('/', (req: Request, res: Response)=>{
-    res.status(200)
-    res.json({message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://github.com/ebarretodev/cariota.org.backend'})
+    res.status(200).json({message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://github.com/ebarretodev/cariota.org.backend'})
 })
 
 router.post('/signin', AuthController.signin)
@@ -29,12 +28,12 @@ router.get('/npc/listCategories', privateRoute, NpcController.listCategories)
 router.post('/npc/category', privateRoute, CategoriesController.addCategory)
 router.post('/npc/addService', privateRoute, NpcController.addService)
 router.get('/npc/listServices', privateRoute, NpcController.listServices)
-router.post('/npc/useService', privateRoute, NpcController.useService) //not done
+router.post('/npc/useService', privateRoute, NpcController.useService)//not done
 
 router.get('/iota/buy', privateRoute, IotaController.buy)
 router.get('/iota/balance', privateRoute, IotaController.balance)
 router.get('/iota/detailed', privateRoute, IotaController.detailedBalance)
-router.post('/iota/sendValue', privateRoute, IotaController.sendValue) //not done
-router.post('/iota/sendMessage', privateRoute, IotaController.sendMessage) //not done
+router.post('/iota/sendValue', privateRoute, IotaController.sendValue)
+router.post('/iota/sendMessage', privateRoute, IotaController.sendMessage)//
 
 module.exports = router
