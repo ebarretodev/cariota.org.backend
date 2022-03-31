@@ -47,7 +47,7 @@ module.exports = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!req.body.username || !req.body.email || !req.body.passHash) {
+                    if (!req.body.email || !req.body.username || !req.body.passHash) {
                         return [2 /*return*/, res.status(400).json({ error: "Check inputed values." })];
                     }
                     return [4 /*yield*/, User.findOne({ email: req.body.email })];
@@ -83,7 +83,14 @@ module.exports = {
                                     return [4 /*yield*/, User.findOneAndUpdate({ _id: newUser._id.toString() }, { $set: updates })];
                                 case 1:
                                     _a.sent();
-                                    res.status(201).json({ message: 'User created successful', token: token });
+                                    res.status(201).json({
+                                        message: "User Signin",
+                                        token: token,
+                                        username: newUser.username,
+                                        email: newUser.email,
+                                        address: updates.address,
+                                        type: newUser.typeNPC
+                                    });
                                     return [2 /*return*/];
                             }
                         });
@@ -93,27 +100,39 @@ module.exports = {
         });
     }); },
     signin: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, username, email, passHash, option, hasUser, token;
+        var _a, username, email, passHash, option, hasUser;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     3;
-                    if ((!req.body.email && !req.body.username) || !req.body.passHash) {
+                    //((!A.B)+(A.!B)).C
+                    if (!(((!req.body.email && req.body.username) || (req.body.email && !req.body.username)) && req.body.passHash)) {
                         return [2 /*return*/, res.status(401).json({ message: 'Check values inputed' })];
                     }
                     _a = req.body, username = _a.username, email = _a.email, passHash = _a.passHash;
-                    option = email ? email : username;
-                    return [4 /*yield*/, User.findOne({ option: option })];
+                    option = {};
+                    if (email) {
+                        option.email = email;
+                    }
+                    if (username) {
+                        option.username = username;
+                    }
+                    console.log(option);
+                    return [4 /*yield*/, User.findOne(option)];
                 case 1:
                     hasUser = _b.sent();
+                    console.log(hasUser);
                     if (passHash !== hasUser.passHash) {
                         return [2 /*return*/, res.status(401).json({ message: 'Not Authorized' })];
                     }
-                    token = (0, passport_1.generateToken)({
-                        id: hasUser.id,
+                    res.json({
+                        message: "User Signin",
+                        token: hasUser.token,
                         username: hasUser.username,
+                        email: hasUser.email,
+                        address: hasUser.address,
+                        type: hasUser.typeNPC
                     });
-                    res.json({ message: "User Signin", token: token });
                     return [2 /*return*/];
             }
         });

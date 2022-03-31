@@ -49,6 +49,7 @@ module.exports = {
                     _a = req.query, _b = _a.sort, sort = _b === void 0 ? 'asc' : _b, _c = _a.offset, offset = _c === void 0 ? 0 : _c, _d = _a.limit, limit = _d === void 0 ? 8 : _d, q = _a.q;
                     filters = { typeNPC: true };
                     if (q) {
+                        //@ts-ignore
                         filters.username = { '$regex': q, '$options': 'i' };
                     }
                     return [4 /*yield*/, User.find(filters)];
@@ -57,7 +58,9 @@ module.exports = {
                     total = listTotal.length;
                     return [4 /*yield*/, User.find(filters)
                             .sort({ username: (sort == 'desc' ? -1 : 1) })
+                            //@ts-ignore
                             .skip(parseInt(offset))
+                            //@ts-ignore
                             .limit(parseInt(limit))
                             .exec()];
                 case 2:
@@ -100,6 +103,7 @@ module.exports = {
                 case 0:
                     _a = req.query, _b = _a.sort, sort = _b === void 0 ? 'asc' : _b, _c = _a.offset, offset = _c === void 0 ? 0 : _c, _d = _a.limit, limit = _d === void 0 ? 8 : _d, q = _a.q, c = _a.c;
                     filters = {};
+                    //@ts-ignore
                     if (q) {
                         filters.name = { '$regex': q, '$options': 'i' };
                     }
@@ -108,11 +112,14 @@ module.exports = {
                 case 1:
                     cat = _e.sent();
                     console.log(cat);
+                    //@ts-ignore
                     filters.category = cat._id.toString();
                     _e.label = 2;
                 case 2: return [4 /*yield*/, Services.find(filters)
                         .sort({ name: (sort == 'desc' ? -1 : 1) })
+                        //@ts-ignore
                         .skip(parseInt(offset))
+                        //@ts-ignore
                         .limit(parseInt(limit))
                         .exec()];
                 case 3:
@@ -132,6 +139,7 @@ module.exports = {
                 case 1:
                     cat = _b.sent();
                     newService = new Services({
+                        //@ts-ignore
                         idNPC: req.user._id.toString(),
                         name: name,
                         category: cat._id.toString(),

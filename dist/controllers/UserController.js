@@ -60,6 +60,7 @@ module.exports = {
                 case 0:
                     updates = {};
                     if (req.body.typeNPC !== undefined) {
+                        //@ts-ignore
                         updates.typeNPC = req.body.typeNPC;
                     }
                     if (!req.body.email) return [3 /*break*/, 2];
@@ -69,10 +70,14 @@ module.exports = {
                     if (hasUser) {
                         return [2 /*return*/, res.status(400).json({ error: 'E-mail already in use.' })];
                     }
+                    //@ts-ignore
                     updates.email = req.body.email;
                     _a.label = 2;
-                case 2: return [4 /*yield*/, User.findOneAndUpdate({ _id: req.user._id.toString() }, { $set: updates })];
+                case 2: 
+                //@ts-ignore
+                return [4 /*yield*/, User.findOneAndUpdate({ _id: req.user._id.toString() }, { $set: updates })];
                 case 3:
+                    //@ts-ignore
                     _a.sent();
                     res.status(200).json({ message: "User Edited" });
                     return [2 /*return*/];
@@ -82,8 +87,11 @@ module.exports = {
     deleteMe: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, User.findOneAndDelete({ _id: req.user._id.toString() })];
+                case 0: 
+                //@ts-ignore
+                return [4 /*yield*/, User.findOneAndDelete({ _id: req.user._id.toString() })];
                 case 1:
+                    //@ts-ignore
                     _a.sent();
                     res.status(200).json({ message: "User Deleted" });
                     return [2 /*return*/];

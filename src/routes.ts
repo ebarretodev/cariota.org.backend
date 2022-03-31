@@ -13,7 +13,7 @@ const router = Router()
 
 //Welcome message
 router.get('/', (req: Request, res: Response)=>{
-    res.status(200).json({message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://github.com/ebarretodev/cariota.org.backend'})
+    res.status(200).json({message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://www.cariota.org for more informations', edited: 'March 31th, 2022'})
 })
 
 router.post('/signin', AuthController.signin)
@@ -34,6 +34,6 @@ router.get('/iota/buy', privateRoute, IotaController.buy)
 router.get('/iota/balance', privateRoute, IotaController.balance)
 router.get('/iota/detailed', privateRoute, IotaController.detailedBalance)
 router.post('/iota/sendValue', privateRoute, IotaController.sendValue)
-router.post('/iota/sendMessage', privateRoute, IotaController.sendMessage)//
+router.post('/iota/sendMessage', privateRoute, IotaController.sendMessage)//not done
 
 module.exports = router

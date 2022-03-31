@@ -10,7 +10,7 @@ import { Request, Response, ErrorRequestHandler } from 'express'
 
 //DB connection
 mongoose.connect(process.env.DATABASE, {
-    useNewUrlParser: true,
+    useNewUrlParser: true, 
     useUnifiedTopology: true,
 })
 
@@ -18,6 +18,10 @@ mongoose.Promise = global.Promise
 
 mongoose.connection.on('error', (error: any)=>{
     console.log("Error: ", error.message);
+})
+
+mongoose.connection.on('connected', ()=>{
+    console.log("Connected with success")
 })
 
 

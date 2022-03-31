@@ -19,6 +19,9 @@ mongoose.Promise = global.Promise;
 mongoose.connection.on('error', function (error) {
     console.log("Error: ", error.message);
 });
+mongoose.connection.on('connected', function () {
+    console.log("Connected with success");
+});
 //Importing internal files
 var routes = require('./routes');
 //Server setup

@@ -13,7 +13,7 @@ var passport_1 = require("./middlewares/passport");
 var router = (0, express_1.Router)();
 //Welcome message
 router.get('/', function (req, res) {
-    res.status(200).json({ message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://github.com/ebarretodev/cariota.org.backend' });
+    res.status(200).json({ message: 'Welcome to API.v1 to CarWallet Simulator. Consult https://www.cariota.org for more informations', edited: 'March 31th, 2022' });
 });
 router.post('/signin', AuthController.signin);
 router.post('/signup', AuthController.signup);
@@ -30,5 +30,5 @@ router.get('/iota/buy', passport_1.privateRoute, IotaController.buy);
 router.get('/iota/balance', passport_1.privateRoute, IotaController.balance);
 router.get('/iota/detailed', passport_1.privateRoute, IotaController.detailedBalance);
 router.post('/iota/sendValue', passport_1.privateRoute, IotaController.sendValue);
-router.post('/iota/sendMessage', passport_1.privateRoute, IotaController.sendMessage); //
+router.post('/iota/sendMessage', passport_1.privateRoute, IotaController.sendMessage); //not done
 module.exports = router;

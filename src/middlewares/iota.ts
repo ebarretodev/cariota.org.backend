@@ -72,6 +72,7 @@ export const getBalance = async (address: string) => {
     return balance
 }
 
+const errorMessage = {error: 'Message no longer available on Tangle', timestamp: 0}
 
 export const outputsDetailed = async (address: string) => {
     const outputs = await client.findOutputs([], [address])
@@ -80,17 +81,28 @@ export const outputsDetailed = async (address: string) => {
 
     for(let i in outputs){
         if(outputs[i].outputIndex == 1){
-            const data = await requestData(outputs[i], 'receive')
+            let data: any
+            try{
+                data = await requestData(outputs[i], 'receive')
+            } catch {
+                data = errorMessage
+            }
             detailedList.push(data)
         }else{
             let testTransactionId = outputs[i].transactionId
             while(true){
-                const transaction = await client.getIncludedMessage(testTransactionId)
-                if(transaction.message.payload.essence.outputs[0].address.address === testAddress){
+                let transaction : any
+                try {
+                    transaction = await client.getIncludedMessage(testTransactionId)
+                } catch {
+                    transaction = errorMessage
+                    break
+                }
+                if(transaction.message?.payload.essence.outputs[0].address.address === testAddress){
                     const data = await requestData(transaction, 'send')
                     detailedList.push(data)
                     testTransactionId =  transaction.message.payload.essence.inputs[0].transactionId
-                } else if ( transaction.message.payload.essence.outputs[1].address.address === testAddress ){
+                } else if ( transaction.message?.payload.essence.outputs[1].address.address === testAddress ){
                     const data = await requestData(transaction, 'receive')
                     detailedList.push(data)
                     break
@@ -102,13 +114,19 @@ export const outputsDetailed = async (address: string) => {
 }
 
 const requestData = async (transaction: MessageWrapper | OutputMetadata , type: string) => {
+    const messageId = transaction.messageId
     const messageMetadata = await client.getMessage().metadata(transaction.messageId)
     const milestone = await client.getMilestone(messageMetadata.referencedByMilestoneIndex)
     const timestamp = milestone.timestamp
-
-    const amount = transaction.amount ? transaction.amount : transaction.message.payload.essence.outputs[1].amount
+    let amount = 0
+    try {
+        //@ts-ignore
+        amount = transaction.amount ? transaction.amount : transaction.message.payload.essence.outputs[1].amount
+    } catch {
+        amount = 0
+    }
     const description= `${type.toUpperCase()}: ${amount/1000000}Mi`
-    return {timestamp, description, type, amount}
+    return {timestamp, description, type, amount, messageId}
 }
 
 

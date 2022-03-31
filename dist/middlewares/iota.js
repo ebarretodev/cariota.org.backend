@@ -122,76 +122,107 @@ var getBalance = function (address) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getBalance = getBalance;
+var errorMessage = { error: 'Message no longer available on Tangle', timestamp: 0 };
 var outputsDetailed = function (address) { return __awaiter(void 0, void 0, void 0, function () {
-    var outputs, testAddress, detailedList, _a, _b, _i, i, data, testTransactionId, transaction, data, data;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var outputs, testAddress, detailedList, _a, _b, _i, i, data, _c, testTransactionId, transaction, _d, data, data;
+    var _e, _f;
+    return __generator(this, function (_g) {
+        switch (_g.label) {
             case 0: return [4 /*yield*/, client.findOutputs([], [address])];
             case 1:
-                outputs = _c.sent();
+                outputs = _g.sent();
                 return [4 /*yield*/, client.bech32ToHex(address)];
             case 2:
-                testAddress = _c.sent();
+                testAddress = _g.sent();
                 detailedList = [];
                 _a = [];
                 for (_b in outputs)
                     _a.push(_b);
                 _i = 0;
-                _c.label = 3;
+                _g.label = 3;
             case 3:
-                if (!(_i < _a.length)) return [3 /*break*/, 13];
+                if (!(_i < _a.length)) return [3 /*break*/, 19];
                 i = _a[_i];
-                if (!(outputs[i].outputIndex == 1)) return [3 /*break*/, 5];
-                return [4 /*yield*/, requestData(outputs[i], 'receive')];
+                if (!(outputs[i].outputIndex == 1)) return [3 /*break*/, 8];
+                data = void 0;
+                _g.label = 4;
             case 4:
-                data = _c.sent();
-                detailedList.push(data);
-                return [3 /*break*/, 12];
+                _g.trys.push([4, 6, , 7]);
+                return [4 /*yield*/, requestData(outputs[i], 'receive')];
             case 5:
-                testTransactionId = outputs[i].transactionId;
-                _c.label = 6;
+                data = _g.sent();
+                return [3 /*break*/, 7];
             case 6:
-                if (!true) return [3 /*break*/, 12];
-                return [4 /*yield*/, client.getIncludedMessage(testTransactionId)];
+                _c = _g.sent();
+                data = errorMessage;
+                return [3 /*break*/, 7];
             case 7:
-                transaction = _c.sent();
-                if (!(transaction.message.payload.essence.outputs[0].address.address === testAddress)) return [3 /*break*/, 9];
-                return [4 /*yield*/, requestData(transaction, 'send')];
+                detailedList.push(data);
+                return [3 /*break*/, 18];
             case 8:
-                data = _c.sent();
+                testTransactionId = outputs[i].transactionId;
+                _g.label = 9;
+            case 9:
+                if (!true) return [3 /*break*/, 18];
+                transaction = void 0;
+                _g.label = 10;
+            case 10:
+                _g.trys.push([10, 12, , 13]);
+                return [4 /*yield*/, client.getIncludedMessage(testTransactionId)];
+            case 11:
+                transaction = _g.sent();
+                return [3 /*break*/, 13];
+            case 12:
+                _d = _g.sent();
+                transaction = errorMessage;
+                return [3 /*break*/, 18];
+            case 13:
+                if (!(((_e = transaction.message) === null || _e === void 0 ? void 0 : _e.payload.essence.outputs[0].address.address) === testAddress)) return [3 /*break*/, 15];
+                return [4 /*yield*/, requestData(transaction, 'send')];
+            case 14:
+                data = _g.sent();
                 detailedList.push(data);
                 testTransactionId = transaction.message.payload.essence.inputs[0].transactionId;
-                return [3 /*break*/, 11];
-            case 9:
-                if (!(transaction.message.payload.essence.outputs[1].address.address === testAddress)) return [3 /*break*/, 11];
+                return [3 /*break*/, 17];
+            case 15:
+                if (!(((_f = transaction.message) === null || _f === void 0 ? void 0 : _f.payload.essence.outputs[1].address.address) === testAddress)) return [3 /*break*/, 17];
                 return [4 /*yield*/, requestData(transaction, 'receive')];
-            case 10:
-                data = _c.sent();
+            case 16:
+                data = _g.sent();
                 detailedList.push(data);
-                return [3 /*break*/, 12];
-            case 11: return [3 /*break*/, 6];
-            case 12:
+                return [3 /*break*/, 18];
+            case 17: return [3 /*break*/, 9];
+            case 18:
                 _i++;
                 return [3 /*break*/, 3];
-            case 13: return [2 /*return*/, detailedList.sort(function (a, b) { return b.timestamp - a.timestamp; })];
+            case 19: return [2 /*return*/, detailedList.sort(function (a, b) { return b.timestamp - a.timestamp; })];
         }
     });
 }); };
 exports.outputsDetailed = outputsDetailed;
 var requestData = function (transaction, type) { return __awaiter(void 0, void 0, void 0, function () {
-    var messageMetadata, milestone, timestamp, amount, description;
+    var messageId, messageMetadata, milestone, timestamp, amount, description;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, client.getMessage().metadata(transaction.messageId)];
+            case 0:
+                messageId = transaction.messageId;
+                return [4 /*yield*/, client.getMessage().metadata(transaction.messageId)];
             case 1:
                 messageMetadata = _a.sent();
                 return [4 /*yield*/, client.getMilestone(messageMetadata.referencedByMilestoneIndex)];
             case 2:
                 milestone = _a.sent();
                 timestamp = milestone.timestamp;
-                amount = transaction.amount ? transaction.amount : transaction.message.payload.essence.outputs[1].amount;
+                amount = 0;
+                try {
+                    //@ts-ignore
+                    amount = transaction.amount ? transaction.amount : transaction.message.payload.essence.outputs[1].amount;
+                }
+                catch (_b) {
+                    amount = 0;
+                }
                 description = "".concat(type.toUpperCase(), ": ").concat(amount / 1000000, "Mi");
-                return [2 /*return*/, { timestamp: timestamp, description: description, type: type, amount: amount }];
+                return [2 /*return*/, { timestamp: timestamp, description: description, type: type, amount: amount, messageId: messageId }];
         }
     });
 }); };

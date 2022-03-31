@@ -14,6 +14,7 @@ module.exports = {
         let filters = { typeNPC: true }
 
         if(q) {
+            //@ts-ignore
             filters.username = {'$regex':q, '$options':'i' }
         }
 
@@ -22,7 +23,9 @@ module.exports = {
 
         const listNPC = await User.find(filters)
             .sort({username: (sort=='desc'?-1:1)})
+            //@ts-ignore
             .skip(parseInt(offset))
+            //@ts-ignore
             .limit(parseInt(limit))
             .exec()
 
@@ -55,19 +58,21 @@ module.exports = {
         let {sort = 'asc', offset= 0, limit=8, q, c} = req.query
 
         let filters = {}
-
+//@ts-ignore
         if(q){ filters.name = {'$regex':q, '$options': 'i' } }
 
         if(c){
             let cat = await Categories.findOne({ name : c})
             console.log(cat)
-
+//@ts-ignore
             filters.category = cat._id.toString()
         }
 
         let services = await Services.find(filters)
             .sort({name: (sort=='desc'?-1:1)})
+            //@ts-ignore
             .skip(parseInt(offset))
+            //@ts-ignore
             .limit(parseInt(limit))
             .exec()
 
@@ -79,6 +84,7 @@ module.exports = {
         const cat = await Categories.findOne({name: category})
 
         const newService = new Services({
+            //@ts-ignore
             idNPC: req.user._id.toString(),
             name,
             category: cat._id.toString(),
@@ -91,7 +97,7 @@ module.exports = {
         res.json({message:"NPC's services added"})
     },
     useService: async (req: Request, res:Response)=> {
-        
+
         res.json({message:"NPC use service"})
     },
 }

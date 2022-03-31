@@ -51,13 +51,21 @@ module.exports = {
             */
             axios
                 .post('https://faucet.chrysalis-devnet.iota.cafe/api/plugins/faucet/enqueue', {
+                //@ts-ignore
                 address: req.user.address
             })
+                //@ts-ignore
                 .then(function (data) {
                 res.status(200).json({ message: "Iota sended to address" });
             })
+                //@ts-ignore
                 .catch(function (error) {
-                res.status(400).json({ error: error });
+                console.log(error);
+                console.log(error.response.data.error);
+                if (error.response.data.error) {
+                    res.status(error.response.data.error.code).json({ error: (error.response.data.error.message) });
+                }
+                res.status(error.response.status).json({ error: (error.response.statusText) });
             });
             return [2 /*return*/];
         });
@@ -92,7 +100,19 @@ module.exports = {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, iota_1.sendValue)(req.user.seed, 'atoi1qzhnmur875gkjf3zctkhwrwyvr7t3ey9x6yp5546ed3ksxp5xnuhg5k45a8', 1000000, 'Qualquer coisa', 'Qualquer coisa')];
+                case 0:
+                    console.log(req.body);
+                    if (!req.body || !req.body.address || !req.body.amount || !req.body.message) {
+                        return [2 /*return*/, res.status(400).json({ error: 'Check values' })];
+                    }
+                    if (typeof (req.body.amount) == 'string') {
+                        req.body.amount = parseInt(req.body.amount);
+                    }
+                    return [4 /*yield*/, (0, iota_1.sendValue)(
+                        //@ts-ignore
+                        req.user.seed, req.body.address, req.body.amount, 
+                        //@ts-ignore
+                        "CARIOTA: ".concat(req.user.username, " send"), req.body.message)];
                 case 1:
                     result = _a.sent();
                     res.status(200).json(result);

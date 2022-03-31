@@ -16,36 +16,56 @@ module.exports = {
         */
         axios
             .post('https://faucet.chrysalis-devnet.iota.cafe/api/plugins/faucet/enqueue', {
+                //@ts-ignore
                 address: req.user.address
             })
+            //@ts-ignore
             .then(data => {
                 res.status(200).json({message:"Iota sended to address"})
             })
+            //@ts-ignore
             .catch(error => {
-                res.status(400).json({error: error})
+                console.log(error)
+                console.log(error.response.data.error)
+                if(error.response.data.error){
+                    res.status(error.response.data.error.code).json({error: (error.response.data.error.message)})
+                }
+                res.status(error.response.status).json({error: (error.response.statusText)})
             })
     },
     balance: async (req: Request, res:Response)=> {
+        //@ts-ignore
         const balance = await getBalance(req.user.address)
         res.status(200).json({
             balance: balance.balance
          })
     },
     detailedBalance: async (req: Request, res:Response)=> {
+        //@ts-ignore
         const outputs = await outputsDetailed(req.user.address)
         res.status(200).json(outputs)
     },
     sendValue: async (req: Request, res:Response)=> {
+        console.log(req.body)
+        if(!req.body || !req.body.address || !req.body.amount || !req.body.message){
+           return res.status(400).json({error: 'Check values'})
+        }
+        if(typeof(req.body.amount) == 'string') {
+            req.body.amount = parseInt(req.body.amount)
+        }
         const result = await sendValue(
+            //@ts-ignore
             req.user.seed,
-            'atoi1qzhnmur875gkjf3zctkhwrwyvr7t3ey9x6yp5546ed3ksxp5xnuhg5k45a8',
-            1000000,
-            'Qualquer coisa',
-            'Qualquer coisa'
+            req.body.address,
+            req.body.amount,
+            //@ts-ignore
+            `CARIOTA: ${req.user.username} send`,
+            req.body.message
             )
         res.status(200).json(result)
     },
     outputs: async (req: Request, res:Response)=> {
+        //@ts-ignore
         const result = await outputs(req.user.address)
         res.status(200).json(result)
     },
