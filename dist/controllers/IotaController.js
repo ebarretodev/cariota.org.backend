@@ -102,6 +102,7 @@ module.exports = {
             switch (_a.label) {
                 case 0:
                     console.log(req.body);
+                    console.log(req.user);
                     if (!req.body || !req.body.address || !req.body.amount || !req.body.message) {
                         return [2 /*return*/, res.status(400).json({ error: 'Check values' })];
                     }

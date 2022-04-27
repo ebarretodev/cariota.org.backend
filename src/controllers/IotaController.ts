@@ -47,6 +47,7 @@ module.exports = {
     },
     sendValue: async (req: Request, res:Response)=> {
         console.log(req.body)
+        console.log(req.user)
         if(!req.body || !req.body.address || !req.body.amount || !req.body.message){
            return res.status(400).json({error: 'Check values'})
         }
