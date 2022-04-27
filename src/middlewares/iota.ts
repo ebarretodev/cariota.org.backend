@@ -55,7 +55,7 @@ export const sendMessage = async (seed: string, address: string, index: string, 
 export const sendValue = async (seed: string, address: string, value: number, index: string, dataMessage: string) => {
     const message = await client.message()
         .seed(seed)
-        .output(address, value)
+        .dustAllowanceOutput(address, value)
         .index(index)
         .data(dataMessage)
         .submit();
