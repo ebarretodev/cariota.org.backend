@@ -96,7 +96,7 @@ var sendValue = function (seed, address, value, index, dataMessage) { return __a
         switch (_a.label) {
             case 0: return [4 /*yield*/, client.message()
                     .seed(seed)
-                    .dustAllowanceOutput(address, value)
+                    .output(address, value)
                     .index(index)
                     .data(dataMessage)
                     .submit()];
